@@ -20,7 +20,7 @@ class FileHandler:
         delimiters = [";", ",", "/t", "|"]
 
         # Abre o arquivo CSV
-        with open(filepath, "r") as f:
+        with open(filepath, "r", encoding='UTF-8') as f:
             # Lê as primeiras 100 linhas do arquivo
             lines = f.readlines()[:100]
 

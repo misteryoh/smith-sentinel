@@ -1,35 +1,38 @@
-# Importa o pacote PySpark.
-import pyspark
 import csv
-import random
 import numpy as np
 import json
-import faker
-from spark_handler import SparkHandler
+import os
+from faker import Faker
+from data_utils.spark_handler import SparkHandler
 
 #####################################################################
 # Data Generation
 #####################################################################
 
-def generate_data(nro_rows, path, type, file_name=None):
+def generate_faker_data(nro_rows: int, 
+                        folder_path: str, 
+                        file_name: str,
+                        format_type: str
+                        ) -> str:
 
     """
     Gera massa de dados utilizando a biblioteca Faker
 
     Args:
         nro_rows: Número de linhas de massa de dados a serem geradas
-        path: Local onde o arquivo com a massa de dados será gerado
+        folder_path: Local onde o arquivo com a massa de dados será gerado
+        file_name: Nome do arquivo que será gerado com a massa de dados
         type: Tipo de arquivo a ser gerado
 
     Returns:
-        None
+        filepath: Path completo do arquivo gerado
     """
 
     # Cria um gerador de dados aleatórios
-    fake = faker.Faker("pt_BR")
+    fake = Faker("pt_BR")
 
     # Gera os cabeçalhos do arquivo
-    headers = ["name", "job", "cpf", "country"]
+    headers = ["name", "job", "cpf", "country", "date"]
 
     # Cria um objeto para armazenar os dados
     data = []
@@ -41,17 +44,34 @@ def generate_data(nro_rows, path, type, file_name=None):
             fake.job(),
             fake.cpf(),
             fake.country(),
+            fake.date('%d-%m-%Y')
         ])
 
+    if folder_path[-1] == "/":
+        # Se for, retorna o caminho concatenado com o nome do arquivo.
+        filepath = folder_path + file_name + '.' + format_type
+    else:
+        # Se não for, retorna o caminho concatenado com o caractere "/" e o nome do arquivo.
+        filepath = folder_path + "/" + file_name + '.' + format_type
+
     # Salva o arquivo
-    if type == "csv":
-        with open(path, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile)
+    if format_type == "csv":
+        with open(filepath, "w", newline="", encoding='UTF-8') as csvfile:
+            writer = csv.writer(csvfile, delimiter=';')
             writer.writerow(headers)
             writer.writerows(data)
-    elif type == "json":
-        with open(path, "w") as jsonfile:
+    elif format_type == "json":
+        with open(filepath, "w") as jsonfile:
             json.dump(data, jsonfile)
+
+    return filepath
+
+def import_data(folder_path, file_name):
+
+    return True
+#####################################################################
+# Data Validation
+#####################################################################
 
 def check_column_data_types(df):
     """
@@ -104,6 +124,8 @@ def convert_column_data_types(df):
             "string",
             "object",
         ]:
+            # TODO: Ajustar etapa de cast, pois não está funcionando corretamente
+            
             # Substitui a linha que causava o erro pelo código abaixo
             df = df.withColumn(
                 column_name,

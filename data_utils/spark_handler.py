@@ -1,10 +1,10 @@
 import pyspark.sql
 from pyspark.sql import SparkSession
-from file_handler import FileHandler
+from data_utils.file_handler import FileHandler
 
 class SparkHandler:
 
-    def __init__(self, spark_session):
+    def __init__(self, spark_session=None):
         
         """
         Inicializa a classe SparkHandler.

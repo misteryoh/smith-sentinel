@@ -1,3 +1,4 @@
+import platform
 from data_utils.spark_handler import SparkHandler
 import data_utils.data_handler as dt_hand
 
@@ -5,14 +6,20 @@ def main():
 
     spark_session = SparkHandler()
 
-    # Cria o caminho para o arquivo CSV.
-    path_to_file = "/home/misteryoh/Coding/fake_data"
+    if platform.system() == 'Windows': 
+        folder_path = 'C:/Users/andre/Desktop/coding/git/smith-sentinel/datasets/'
+    elif platform.system() == 'Linux':
+        folder_path = "/home/misteryoh/Coding/git/smith-sentinel/datasets/"
 
     # Gera dados aleatórios para o arquivo CSV.
-    dt_hand.generate_data(path_to_file, 100, 'json')
+    filepath = dt_hand.generate_faker_data(nro_rows=100,
+                                           folder_path=folder_path, 
+                                           file_name="fake_data",
+                                           format_type='csv'
+                                           )
 
     # Carrega o arquivo CSV.
-    df = spark_session.load_data_from_file(path_to_file)
+    df = spark_session.load_data_from_file(filepath)
 
     df = dt_hand.convert_column_data_types(df)
 
