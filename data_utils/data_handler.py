@@ -11,7 +11,19 @@ from spark_handler import SparkHandler
 # Data Generation
 #####################################################################
 
-def generate_data(nro_rows, path, type):
+def generate_data(nro_rows, path, type, file_name=None):
+
+    """
+    Gera massa de dados utilizando a biblioteca Faker
+
+    Args:
+        nro_rows: Número de linhas de massa de dados a serem geradas
+        path: Local onde o arquivo com a massa de dados será gerado
+        type: Tipo de arquivo a ser gerado
+
+    Returns:
+        None
+    """
 
     # Cria um gerador de dados aleatórios
     fake = faker.Faker("pt_BR")
@@ -123,30 +135,3 @@ def convert_column_data_types(df):
             best_data_type = None
 
     return df
-
-def main():
-
-    spark_session = SparkHandler()
-
-    # Cria o caminho para o arquivo CSV.
-    path_to_file = "/home/misteryoh/Coding/fake_data"
-
-    # Gera dados aleatórios para o arquivo CSV.
-    generate_random_dog_breed_data(path_to_file, 100, 'json')
-
-    # Carrega o arquivo CSV.
-    df = spark_session.load_data_from_file(path_to_file)
-
-    df = convert_column_data_types(df)
-
-    # Verifica os tipos de dados das colunas.
-    column_data_types = check_column_data_types(df)
-
-    # Imprime os tipos de dados das colunas.
-    print(column_data_types)
-
-    # Imprime o DataFrame.
-    df.show()
-
-if __name__ == "__main__":
-    main()
