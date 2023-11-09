@@ -157,3 +157,12 @@ def convert_column_data_types(df):
             best_data_type = None
 
     return df
+
+
+# Faça uma função python a partir das seguintes especificações:
+# 1. A função deverá eleger o melhor data type de cada coluna de um spark dataframe
+# 2. Para eleger o melhor data type, a função deverá tentar converter cada coluna para todos
+# os data types que estiverem contidos em uma lista de data types.
+# 3. A lista de data types deverá conter os seguintes valores: "int", "float", "date", "time", "string", "object"
+# 4. Ao tentar realizar a conversão da coluna, em caso de sucesso, a função deverá armazenar data type em um dicionario, onde a chave será o nome da coluna, e o valor será uma lista com os data types possíveis de conversãol.
+# 5. Ao tentar realizar a conversão da coluna, podem ocorrer Exceptions, a função deverá identificar a exception e ignora-la. Caso uma conversão retorne uma Expection, o data type não deverá ser armazenado no dicionario especificado no item 4.

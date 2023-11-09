@@ -21,7 +21,7 @@ def main():
     # Carrega o arquivo CSV.
     df = spark_session.load_data_from_file(filepath)
 
-    df = dt_hand.convert_column_data_types(df)
+    df = dt_hand.find_best_dtypes(df)
 
     # Verifica os tipos de dados das colunas.
     column_data_types = dt_hand.check_column_data_types(df)

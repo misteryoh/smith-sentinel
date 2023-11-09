@@ -61,7 +61,7 @@ class SparkHandler:
         if extension == 'csv':
             delimiter = FileHandler.get_file_delimiter(filepath)
             
-            df = self.spark.read.load(path=filepath, format=extension, sep=delimiter, inferSchema="true", header="true")
+            df = self.spark.read.load(path=filepath, format=extension, sep=delimiter, inferSchema=True, header="true")
         elif extension == 'json':
 
             df = self.spark.read.load(path=filepath, format=extension)
