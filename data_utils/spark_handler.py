@@ -68,3 +68,25 @@ class SparkHandler:
 
         return df
 
+    def load_data_from_provider(self, provider, **kwargs):
+        
+        """
+        Carrega dados do provedor indicado, para um DataFrame Spark.
+
+        Args:
+            provider: Variavel de conexão com provedor.
+
+        Returns:
+            Um DataFrame Spark com os dados do arquivo.
+        """
+
+        valid_provider = [
+            'AWS',
+            'GOV'
+        ]
+
+        if provider not in valid_provider:
+            print("Indicar provedor válido")
+            return False
+            
+

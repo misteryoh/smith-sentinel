@@ -66,9 +66,6 @@ def generate_faker_data(nro_rows: int,
 
     return filepath
 
-def import_data(folder_path, file_name):
-
-    return True
 #####################################################################
 # Data Validation
 #####################################################################
